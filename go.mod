@@ -3,7 +3,7 @@ module crdx.org/session
 go 1.21.0
 
 require (
-	crdx.org/db v1.0.0
+	crdx.org/db v1.1.0
 	github.com/gofiber/fiber/v2 v2.49.2
 	github.com/gofiber/storage/mysql v1.3.7
 )
