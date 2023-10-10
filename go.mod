@@ -3,7 +3,7 @@ module crdx.org/session
 go 1.21.0
 
 require (
-	crdx.org/db v1.2.0
+	crdx.org/db v1.3.0
 	github.com/gofiber/fiber/v2 v2.49.2
 	github.com/gofiber/storage/mysql v1.3.7
 )
@@ -20,6 +20,7 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
+	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.50.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
