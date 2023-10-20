@@ -1,5 +1,5 @@
-crdx.org/db v1.5.0 h1:CJnG0d+3HQDfqsVLBHXIMthA9fDkgRxshi+6DwkYPiI=
-crdx.org/db v1.5.0/go.mod h1:Kk6eVo59EGa4gha7JT2LgGVvWYAUr+UNsoQSQm6zBYc=
+crdx.org/db v1.5.2 h1:O8+VLk0dEwnXLMtf7r3OZScp7A3HGj26FPE0QeoFyms=
+crdx.org/db v1.5.2/go.mod h1:Kk6eVo59EGa4gha7JT2LgGVvWYAUr+UNsoQSQm6zBYc=
 github.com/andybalholm/brotli v1.0.6 h1:Yf9fFpf49Zrxb9NlQaluyE92/+X7UVHlhMNJN2sxfOI=
 github.com/andybalholm/brotli v1.0.6/go.mod h1:fO7iG3H7G2nSZ7m0zPUDn85XEX2GTukHGRSepvi9Eig=
 github.com/go-gormigrate/gormigrate/v2 v2.1.1 h1:eGS0WTFRV30r103lU8JNXY27KbviRnqqIDobW3EV3iY=
