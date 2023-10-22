@@ -1,6 +1,8 @@
 package session
 
 import (
+	"time"
+
 	"crdx.org/db"
 	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/gofiber/storage/mysql"
@@ -11,8 +13,9 @@ var (
 )
 
 type Config struct {
-	Table        string // The table to store the session data in.
-	CookieSecure bool   // Whether the cookie should be HTTPS-only.
+	Table        string        // The table to store the session data in.
+	CookieSecure bool          // Whether the cookie should be HTTPS-only.
+	Expiration   time.Duration // How long the session cookie should last.
 }
 
 // Init initialises the session.
@@ -29,5 +32,6 @@ func Init(sessionConfig *Config, dbConfig *db.Config) {
 		KeyLookup:      "cookie:session",
 		CookieSecure:   sessionConfig.CookieSecure,
 		CookieHTTPOnly: true,
+		Expiration:     sessionConfig.Expiration,
 	})
 }
