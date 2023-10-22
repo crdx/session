@@ -26,6 +26,12 @@ func GetInt(c *fiber.Ctx, key string) int {
 	return GetOrDefault[int](c, key)
 }
 
+// GetUint fetches a uint from the session, returning 0 if it isn't found. If you need to be able to
+// differentiate between absence and 0, use Get.
+func GetUint(c *fiber.Ctx, key string) uint {
+	return GetOrDefault[uint](c, key)
+}
+
 // GetOrDefault fetches a value from the session and casts it to T, returning the value or the
 // default value for the type if it was not present in the session.
 func GetOrDefault[T any](c *fiber.Ctx, key string) T {
@@ -54,6 +60,12 @@ func GetIntOnce(c *fiber.Ctx, key string) int {
 	return GetOnceOrDefault[int](c, key)
 }
 
+// GetUintOnce fetches an int from the session and then deletes it from the session. If you
+// need to be able to differentiate between absence and 0, use GetOnce.
+func GetUintOnce(c *fiber.Ctx, key string) uint {
+	return GetOnceOrDefault[uint](c, key)
+}
+
 // GetOnceOrDefault fetches a value from the session and casts it to T, returning the value or the
 // default value for the type if it was not present in the session.
 func GetOnceOrDefault[T any](c *fiber.Ctx, key string) T {
@@ -67,6 +79,18 @@ func Set[T any](c *fiber.Ctx, key string, value T) {
 	session := must(s.Get(c))
 	session.Set(key, value)
 	must0(session.Save())
+}
+
+// Delete deletes a value from the session.
+func Delete(c *fiber.Ctx, key string) {
+	session := must(s.Get(c))
+	session.Delete(key)
+}
+
+// Destroy destroys the session.
+func Destroy(c *fiber.Ctx) {
+	session := must(s.Get(c))
+	must0(session.Destroy())
 }
 
 func get(c *fiber.Ctx, key string) any {
