@@ -3,14 +3,13 @@ module crdx.org/session
 go 1.21.0
 
 require (
-	crdx.org/db v1.5.0
+	crdx.org/db v1.8.0
 	github.com/gofiber/fiber/v2 v2.50.0
 	github.com/gofiber/storage/mysql v1.3.7
 )
 
 require (
 	github.com/andybalholm/brotli v1.0.6 // indirect
-	github.com/go-gormigrate/gormigrate/v2 v2.1.1 // indirect
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/google/uuid v1.3.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
