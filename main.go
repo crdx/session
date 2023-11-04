@@ -8,9 +8,7 @@ import (
 	"github.com/gofiber/storage/mysql"
 )
 
-var (
-	s *session.Store
-)
+var s *session.Store
 
 type Config struct {
 	Table        string        // The table to store the session data in.
