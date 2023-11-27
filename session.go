@@ -93,6 +93,11 @@ func Destroy(c *fiber.Ctx) {
 	must0(session.Destroy())
 }
 
+// GetID returns the session ID.
+func GetID(c *fiber.Ctx) string {
+	return must(s.Get(c)).ID()
+}
+
 func get(c *fiber.Ctx, key string) any {
 	session := must(s.Get(c))
 	return session.Get(key)
