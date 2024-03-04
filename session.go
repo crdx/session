@@ -20,16 +20,16 @@ func GetString(c *fiber.Ctx, key string) string {
 	return GetOrDefault[string](c, key)
 }
 
-// GetInt fetches an int from the session, returning 0 if it isn't found. If you need to be able to
+// GetInt fetches an int64 from the session, returning 0 if it isn't found. If you need to be able to
 // differentiate between absence and 0, use Get.
-func GetInt(c *fiber.Ctx, key string) int {
-	return GetOrDefault[int](c, key)
+func GetInt(c *fiber.Ctx, key string) int64 {
+	return GetOrDefault[int64](c, key)
 }
 
-// GetUint fetches a uint from the session, returning 0 if it isn't found. If you need to be able to
+// GetUint fetches a uint64 from the session, returning 0 if it isn't found. If you need to be able to
 // differentiate between absence and 0, use Get.
-func GetUint(c *fiber.Ctx, key string) uint {
-	return GetOrDefault[uint](c, key)
+func GetUint(c *fiber.Ctx, key string) uint64 {
+	return GetOrDefault[uint64](c, key)
 }
 
 // GetOrDefault fetches a value from the session and casts it to T, returning the value or the
@@ -54,16 +54,16 @@ func GetStringOnce(c *fiber.Ctx, key string) string {
 	return GetOnceOrDefault[string](c, key)
 }
 
-// GetIntOnce fetches an int from the session and then deletes it from the session. If you
+// GetIntOnce fetches an int64 from the session and then deletes it from the session. If you
 // need to be able to differentiate between absence and 0, use GetOnce.
-func GetIntOnce(c *fiber.Ctx, key string) int {
-	return GetOnceOrDefault[int](c, key)
+func GetIntOnce(c *fiber.Ctx, key string) int64 {
+	return GetOnceOrDefault[int64](c, key)
 }
 
-// GetUintOnce fetches an int from the session and then deletes it from the session. If you
+// GetUintOnce fetches an int64 from the session and then deletes it from the session. If you
 // need to be able to differentiate between absence and 0, use GetOnce.
-func GetUintOnce(c *fiber.Ctx, key string) uint {
-	return GetOnceOrDefault[uint](c, key)
+func GetUintOnce(c *fiber.Ctx, key string) uint64 {
+	return GetOnceOrDefault[uint64](c, key)
 }
 
 // GetOnceOrDefault fetches a value from the session and casts it to T, returning the value or the
