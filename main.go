@@ -3,7 +3,6 @@ package session
 import (
 	"time"
 
-	"crdx.org/db"
 	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/gofiber/storage/mysql"
 )
@@ -17,14 +16,10 @@ type Config struct {
 }
 
 // Init initialises the session.
-func Init(sessionConfig *Config, dbConfig *db.Config) {
-	if handleError == nil && dbConfig.ErrorHandler != nil {
-		SetErrorHandler(dbConfig.ErrorHandler)
-	}
-
+func Init(sessionConfig *Config, dsn string) {
 	s = session.New(session.Config{
 		Storage: mysql.New(mysql.Config{
-			ConnectionURI: dbConfig.PrimaryDSN(),
+			ConnectionURI: dsn,
 			Table:         sessionConfig.Table,
 		}),
 		KeyLookup:      "cookie:session",
