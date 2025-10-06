@@ -5,7 +5,7 @@
 ## Installation
 
 ```sh
-go get crdx.org/session/v2
+go get crdx.org/session/v3
 ```
 
 ## Usage
