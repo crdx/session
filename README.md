@@ -1,6 +1,6 @@
 # session
 
-**session** is a generic database-backed [fiber](https://github.com/gofiber/fiber)-powered session wrapper for [db](https://github.com/crdx/db).
+**session** is an opinionated generic database-backed [fiber](https://github.com/gofiber/fiber)-powered session wrapper.
 
 ## Installation
 

@@ -1,15 +1,14 @@
 package session
 
 import (
-	"context"
 	"time"
 
+	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/extractors"
 	"github.com/gofiber/fiber/v3/middleware/session"
-	"github.com/gofiber/storage/mysql"
+	"github.com/gofiber/storage/mysql/v2"
+	"github.com/samber/lo"
 )
-
-var s *session.Store
 
 type Config struct {
 	Table        string        // The table to store the session data in.
@@ -17,38 +16,80 @@ type Config struct {
 	IdleTimeout  time.Duration // How long the session cookie should last.
 }
 
-type wrapper struct {
-	*mysql.Storage
-}
-
-func (self *wrapper) GetWithContext(_ context.Context, key string) ([]byte, error) {
-	return self.Get(key)
-}
-
-func (self *wrapper) SetWithContext(_ context.Context, key string, value []byte, expiration time.Duration) error {
-	return self.Set(key, value, expiration)
-}
-
-func (self *wrapper) DeleteWithContext(_ context.Context, key string) error {
-	return self.Delete(key)
-}
-
-func (self *wrapper) ResetWithContext(_ context.Context) error {
-	return self.Reset()
-}
-
-// Init initialises the session.
-func Init(sessionConfig *Config, dsn string) {
-	s = session.NewStore(session.Config{
-		Storage: &wrapper{
-			Storage: mysql.New(mysql.Config{
-				ConnectionURI: dsn,
-				Table:         sessionConfig.Table,
-			}),
-		},
+// New initialises the session and returns a middleware handler.
+func New(config *Config, dsn string) fiber.Handler {
+	return session.New(session.Config{
+		Storage: mysql.New(mysql.Config{
+			ConnectionURI: dsn,
+			Table:         config.Table,
+		}),
 		Extractor:      extractors.FromCookie("session"),
-		CookieSecure:   sessionConfig.CookieSecure,
+		CookieSecure:   config.CookieSecure,
 		CookieHTTPOnly: true,
-		IdleTimeout:    sessionConfig.IdleTimeout,
+		IdleTimeout:    config.IdleTimeout,
 	})
+}
+
+// Get fetches a value from the session as T. If the session doesn't contain a T then the zero value
+// of T is returned.
+func Get[T any](c fiber.Ctx, key string) T {
+	value, _ := TryGet[T](c, key)
+	return value
+}
+
+// GetOnce fetches a value from the session as T, then deletes it. If the session doesn't contain a
+// T then the zero value of T is returned.
+func GetOnce[T any](c fiber.Ctx, key string) T {
+	value, _ := TryGetOnce[T](c, key)
+	return value
+}
+
+// TryGet fetches a value from the session as T, returning the value and a boolean indicating
+// whether the value was present in the session.
+func TryGet[T any](c fiber.Ctx, key string) (T, bool) {
+	if value, found := get(c, key).(T); found {
+		return value, true
+	}
+	var value T
+	return value, false
+}
+
+// TryGetOnce fetches a value from the session as T, then deletes it from the session.
+func TryGetOnce[T any](c fiber.Ctx, key string) (T, bool) {
+	if value, found := getOnce(c, key).(T); found {
+		return value, true
+	}
+	var value T
+	return value, false
+}
+
+// Set stores a value in the session. If T is a custom type then it may need to be registered with
+// gob.Register first.
+func Set[T any](c fiber.Ctx, key string, value T) {
+	session.FromContext(c).Set(key, value)
+}
+
+// Delete deletes a value from the session.
+func Delete(c fiber.Ctx, key string) {
+	session.FromContext(c).Delete(key)
+}
+
+// Destroy destroys the session.
+func Destroy(c fiber.Ctx) {
+	lo.Must0(session.FromContext(c).Destroy())
+}
+
+// GetID returns the session ID.
+func GetID(c fiber.Ctx) string {
+	return session.FromContext(c).ID()
+}
+
+func get(c fiber.Ctx, key string) any {
+	return session.FromContext(c).Get(key)
+}
+
+func getOnce(c fiber.Ctx, key string) any {
+	value := session.FromContext(c).Get(key)
+	session.FromContext(c).Delete(key)
+	return value
 }
