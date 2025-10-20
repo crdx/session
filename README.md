@@ -1,3 +1,5 @@
+⚠️ **This repository has been archived. Vendor its functionality directly in your project instead.**
+
 # session
 
 **session** is an opinionated generic database-backed [fiber](https://github.com/gofiber/fiber)-powered session wrapper.
